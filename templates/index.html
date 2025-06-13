@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Tournament Helper</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-4">
+            <h1>Poker Tournament Helper</h1>
+            <p class="lead">Make better decisions in Texas Hold'em tournaments</p>
+        </header>
+
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <form id="pokerForm">
+                            <!-- Number of players -->
+                            <div class="mb-3">
+                                <label for="numPlayers" class="form-label">Number of players:</label>
+                                <select id="numPlayers" class="form-select" style="max-width: 100px;">
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6" selected>6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Stack size in big blinds -->
+                            <div class="mb-3">
+                                <label for="bigBlinds" class="form-label">Your stack (in big blinds):</label>
+                                <input type="number" id="bigBlinds" class="form-control" style="max-width: 150px;" min="1" placeholder="Optional">
+                                <small class="form-text text-muted">Enter your current stack size in big blinds</small>
+                            </div>
+
+                            <!-- Hole cards -->
+                            <h5 class="card-title mt-4">Your Hole Cards</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2">Card 1:</label>
+                                        <select id="card1Rank" class="form-select me-1" style="width: 70px;">
+                                            <option value="" selected disabled>Rank</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="T">10</option>
+                                            <option value="J">J</option>
+                                            <option value="Q">Q</option>
+                                            <option value="K">K</option>
+                                            <option value="A">A</option>
+                                        </select>
+                                        <select id="card1Suit" class="form-select" style="width: 100px;">
+                                            <option value="" selected disabled>Suit</option>
+                                            <option value="h">Hearts ♥</option>
+                                            <option value="d">Diamonds ♦</option>
+                                            <option value="c">Clubs ♣</option>
+                                            <option value="s">Spades ♠</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2">Card 2:</label>
+                                        <select id="card2Rank" class="form-select me-1" style="width: 70px;">
+                                            <option value="" selected disabled>Rank</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="T">10</option>
+                                            <option value="J">J</option>
+                                            <option value="Q">Q</option>
+                                            <option value="K">K</option>
+                                            <option value="A">A</option>
+                                        </select>
+                                        <select id="card2Suit" class="form-select" style="width: 100px;">
+                                            <option value="" selected disabled>Suit</option>
+                                            <option value="h">Hearts ♥</option>
+                                            <option value="d">Diamonds ♦</option>
+                                            <option value="c">Clubs ♣</option>
+                                            <option value="s">Spades ♠</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Community cards -->
+                            <h5 class="card-title mt-4">Community Cards (Optional)</h5>
+                            
+                            <!-- Flop -->
+                            <div class="mb-3">
+                                <label class="form-label">Flop:</label>
+                                <div class="d-flex flex-wrap">
+                                    <div class="me-3 mb-2">
+                                        <div class="input-group" style="width: 180px;">
+                                            <select class="form-select community-rank">
+                                                <option value="" selected>Rank</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="T">10</option>
+                                                <option value="J">J</option>
+                                                <option value="Q">Q</option>
+                                                <option value="K">K</option>
+                                                <option value="A">A</option>
+                                            </select>
+                                            <select class="form-select community-suit">
+                                                <option value="" selected>Suit</option>
+                                                <option value="h">♥</option>
+                                                <option value="d">♦</option>
+                                                <option value="c">♣</option>
+                                                <option value="s">♠</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="me-3 mb-2">
+                                        <div class="input-group" style="width: 180px;">
+                                            <select class="form-select community-rank">
+                                                <option value="" selected>Rank</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="T">10</option>
+                                                <option value="J">J</option>
+                                                <option value="Q">Q</option>
+                                                <option value="K">K</option>
+                                                <option value="A">A</option>
+                                            </select>
+                                            <select class="form-select community-suit">
+                                                <option value="" selected>Suit</option>
+                                                <option value="h">♥</option>
+                                                <option value="d">♦</option>
+                                                <option value="c">♣</option>
+                                                <option value="s">♠</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="input-group" style="width: 180px;">
+                                            <select class="form-select community-rank">
+                                                <option value="" selected>Rank</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="T">10</option>
+                                                <option value="J">J</option>
+                                                <option value="Q">Q</option>
+                                                <option value="K">K</option>
+                                                <option value="A">A</option>
+                                            </select>
+                                            <select class="form-select community-suit">
+                                                <option value="" selected>Suit</option>
+                                                <option value="h">♥</option>
+                                                <option value="d">♦</option>
+                                                <option value="c">♣</option>
+                                                <option value="s">♠</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Turn -->
+                            <div class="mb-3">
+                                <label class="form-label">Turn:</label>
+                                <div class="input-group" style="max-width: 180px;">
+                                    <select class="form-select community-rank">
+                                        <option value="" selected>Rank</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="T">10</option>
+                                        <option value="J">J</option>
+                                        <option value="Q">Q</option>
+                                        <option value="K">K</option>
+                                        <option value="A">A</option>
+                                    </select>
+                                    <select class="form-select community-suit">
+                                        <option value="" selected>Suit</option>
+                                        <option value="h">♥</option>
+                                        <option value="d">♦</option>
+                                        <option value="c">♣</option>
+                                        <option value="s">♠</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- River -->
+                            <div class="mb-3">
+                                <label class="form-label">River:</label>
+                                <div class="input-group" style="max-width: 180px;">
+                                    <select class="form-select community-rank">
+                                        <option value="" selected>Rank</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="T">10</option>
+                                        <option value="J">J</option>
+                                        <option value="Q">Q</option>
+                                        <option value="K">K</option>
+                                        <option value="A">A</option>
+                                    </select>
+                                    <select class="form-select community-suit">
+                                        <option value="" selected>Suit</option>
+                                        <option value="h">♥</option>
+                                        <option value="d">♦</option>
+                                        <option value="c">♣</option>
+                                        <option value="s">♠</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Position -->
+                            <div class="mb-4">
+                                <label class="form-label">Your position:</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="position" id="positionEarly" value="early">
+                                    <label class="form-check-label" for="positionEarly">Early</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="position" id="positionMiddle" value="middle" checked>
+                                    <label class="form-check-label" for="positionMiddle">Middle</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="position" id="positionLate" value="late">
+                                    <label class="form-check-label" for="positionLate">Late</label>
+                                </div>
+                            </div>
+
+                            <!-- Calculate button -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">Calculate</button>
+                            </div>
+                        </form>
+
+                        <!-- Results section -->
+                        <div id="resultsSection" class="mt-4 pt-4 border-top d-none">
+                            <h4 class="text-center mb-4">Results</h4>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="text-center mb-3">
+                                        <h5>Hand Strength</h5>
+                                        <div class="progress">
+                                            <div id="strengthProgress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <p id="strengthValue" class="mt-2 fs-4">0%</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="text-center mb-3">
+                                        <h5>Recommendation</h5>
+                                        <p id="recommendation" class="mt-2 fs-3 fw-bold">-</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="text-center mb-3">
+                                        <h5>Additional Info</h5>
+                                        <p id="additionalInfo" class="mt-2">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Loading indicator -->
+                        <div id="loadingSection" class="text-center mt-4 d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Calculating probabilities...</p>
+                        </div>
+                        
+                        <!-- Error message -->
+                        <div id="errorSection" class="alert alert-danger mt-4 d-none" role="alert">
+                            <strong>Error:</strong> <span id="errorMessage"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center mt-4 mb-5">
+            <p class="text-muted">Poker Tournament Helper &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
