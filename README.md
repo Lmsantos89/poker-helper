@@ -1,6 +1,6 @@
 # Poker Tournament Helper
 
-A high-performance web application to help make poker decisions based on probabilities during tournaments.
+A high-performance web application to help make poker decisions based on probabilities during tournaments, with ICM considerations.
 
 ## Features
 
@@ -8,7 +8,10 @@ A high-performance web application to help make poker decisions based on probabi
 - Consider the number of players at the table
 - Take position into account for decision making
 - Provide action recommendations (fold, call, raise, all-in)
-- User-friendly web interface
+- ICM calculations for tournament play
+- Nash equilibrium push/fold ranges
+- Support for opponent hand ranges
+- User-friendly web interface with Streamlit option
 - Support for known community cards (flop, turn, river)
 - Optimized performance with parallel processing
 
@@ -29,12 +32,19 @@ A high-performance web application to help make poker decisions based on probabi
    http://127.0.0.1:5000
    ```
 
-4. In the web interface:
+4. Alternatively, run the Streamlit interface:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
+
+5. In the web interface:
    - Select the number of players at the table (2-9)
-   - Enter your stack size in big blinds (optional)
+   - Enter your stack size in big blinds
    - Choose your hole cards from the dropdown menus
    - Optionally enter known community cards (flop, turn, river)
    - Select your position at the table (early, middle, late)
+   - Choose the tournament stage (early, middle, bubble, final)
+   - Optionally specify opponent ranges and ICM considerations
    - Click "Calculate" to get your recommendation
 
 ## Card Format
@@ -49,7 +59,9 @@ Example: "Ah" is the Ace of hearts, "Td" is the Ten of diamonds
 The application is organized into modular components:
 
 - `app.py` - Main Flask web application
-- `models.py` - Core poker logic and data structures
+- `streamlit_app.py` - Streamlit web interface
+- `poker_engine.py` - Core poker logic and hand evaluation
+- `icm.py` - Independent Chip Model calculations
 - `utils.py` - Helper functions and benchmarking tools
 - `templates/` - HTML templates for the web interface
 - `static/` - CSS and JavaScript files
@@ -60,7 +72,19 @@ The application is organized into modular components:
 
 The application uses optimized Monte Carlo simulation to estimate the probability of winning with your hole cards against the specified number of opponents. It simulates thousands of random community cards and opponent hole cards to calculate your hand strength.
 
-Based on this strength and your position, it provides an action recommendation that can help guide your decision-making process during a poker tournament.
+For premium hands (AA, KK, QQ, AK, AQ), it uses precomputed values for more accurate results.
+
+Based on this strength, your position, stack size, and tournament stage, it provides an action recommendation that can help guide your decision-making process during a poker tournament.
+
+### ICM Calculations
+
+The Independent Chip Model (ICM) calculates the dollar value of your tournament chips based on the payout structure. This helps you make better decisions in tournaments, especially near the bubble or final table.
+
+The application can:
+- Calculate ICM equity for each player
+- Determine ICM pressure for each player
+- Adjust recommendations based on ICM considerations
+- Generate Nash equilibrium push/fold ranges
 
 ### Performance Optimizations
 
@@ -70,12 +94,17 @@ This application includes several performance optimizations:
 2. **Optimized Card Representation**: Uses memory-efficient card objects with precomputed values
 3. **Fast Hand Evaluation**: Implements optimized algorithms for evaluating poker hands
 4. **Efficient Deck Management**: Uses set operations and lookup tables for faster card operations
+5. **Adaptive Simulation Count**: Reduces simulations when community cards are known
+6. **Early Exit Optimization**: Skips opponent evaluations for very strong hands
 
 ## API Endpoints
 
 - `/` - Main web interface
 - `/calculate` - POST endpoint for calculating hand strength and recommendations
+- `/calculate_icm` - POST endpoint for ICM calculations
+- `/nash_ranges` - POST endpoint for Nash equilibrium push/fold ranges
 - `/benchmark` - GET endpoint to run a performance benchmark
+
 ## Testing
 
 The application includes comprehensive unit tests for all components:
@@ -91,8 +120,15 @@ The application includes comprehensive unit tests for all components:
    - Show coverage statistics
    - Generate an HTML coverage report in the `htmlcov` directory
 
-2. Current test coverage:
-   - app.py: 86%
-   - models.py: 70%
-   - utils.py: 97%
-   - Overall: 77%
+## Quick Start Script
+
+For convenience, you can use the included script to set up and run the application:
+
+```bash
+./run_poker_helper.py
+```
+
+This script will:
+- Create a virtual environment if needed
+- Install all required dependencies
+- Run the Flask application
