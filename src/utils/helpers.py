@@ -2,14 +2,24 @@
 """
 Poker Tournament Helper - Utilities
 Helper functions and benchmarking tools.
-"""
-import time
-from poker_engine import PokerEngine
 
-def benchmark_performance():
+This module provides utility functions for the poker helper application, including:
+- Performance benchmarking
+- Hand description generation
+- Stack size description
+- Hand range conversion utilities
+"""
+from typing import List, Dict, Tuple, Optional, Union, Any
+import time
+from src.core.poker_engine import PokerEngine
+
+def benchmark_performance() -> float:
     """
     Benchmark the performance of the optimized poker helper.
-    This function can be called to test the speed improvements.
+    
+    This function measures the time taken to perform a standard set of
+    operations with the poker engine, which can be used to compare
+    performance between different versions or optimizations.
     
     Returns:
         float: The elapsed time in seconds for the benchmark.
@@ -32,15 +42,18 @@ def benchmark_performance():
     print(f"Result: {result:.4f}")
     return elapsed_time
 
-def get_hand_description(hand_strength):
+def get_hand_description(hand_strength: float) -> str:
     """
     Get a description of the hand strength.
     
+    Provides a human-readable description of the hand strength value,
+    which can be used to help players understand their hand quality.
+    
     Args:
-        hand_strength (float): The calculated hand strength between 0 and 1.
+        hand_strength: The calculated hand strength between 0 and 1.
         
     Returns:
-        str: A description of the hand strength.
+        A description of the hand strength.
     """
     if hand_strength > 0.8:
         return "This is a very strong hand!"
@@ -53,15 +66,18 @@ def get_hand_description(hand_strength):
     else:
         return "This is a very weak hand. Consider folding."
 
-def get_stack_description(big_blinds):
+def get_stack_description(big_blinds: int) -> str:
     """
     Get a description based on stack size.
     
+    Provides strategic advice based on the player's stack size in big blinds,
+    which is crucial for tournament decision making.
+    
     Args:
-        big_blinds (int): The stack size in big blinds.
+        big_blinds: The stack size in big blinds.
         
     Returns:
-        str: A description of the stack size strategy.
+        A description of the stack size strategy.
     """
     if big_blinds <= 10:
         return f" With {big_blinds} BB, you're in push/fold territory."
@@ -70,15 +86,19 @@ def get_stack_description(big_blinds):
     else:
         return f" With {big_blinds} BB, you have room to play strategically."
 
-def hand_range_to_percentage(range_str):
+def hand_range_to_percentage(range_str: str) -> float:
     """
     Convert a hand range string to an approximate percentage of starting hands.
     
+    This function takes a poker hand range notation (like "AA,KK,QQ,AK") and
+    converts it to the percentage of all possible starting hands that this range
+    represents.
+    
     Args:
-        range_str (str): A hand range string like "22+,ATs+,KQs"
+        range_str: A string representing a poker hand range (e.g., "AA,KK,QQ,AK")
         
     Returns:
-        float: Approximate percentage of starting hands in the range
+        The percentage (0-100) of all possible starting hands that the range represents.
     """
     # Total number of possible starting hands
     total_hands = 1326

@@ -2,11 +2,17 @@
 """
 Test script to check the hand strength and recommendation for pocket Aces.
 """
-from models import PokerHelper
+import sys
+import os
+
+# Add parent directory to path to import modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.core.poker_engine import PokerEngine
 
 def test_pocket_aces():
     """Test the hand strength and recommendation for pocket Aces."""
-    helper = PokerHelper()
+    helper = PokerEngine()
     
     # Create pocket Aces (A♠ A♥)
     ace_spades = helper.parse_card('As')

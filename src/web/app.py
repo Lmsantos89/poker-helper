@@ -3,11 +3,24 @@
 Poker Tournament Helper - Web Application
 A Flask-based web application to help make poker decisions based on probabilities.
 Optimized version with performance improvements and ICM calculations.
+
+This module provides a web interface for the poker helper, allowing users to:
+- Input their hole cards and table situation
+- Calculate hand strength and equity
+- Get action recommendations based on ICM considerations
+- Visualize results and explanations
 """
+from typing import Dict, List, Any, Optional, Union, Tuple
 from flask import Flask, request, jsonify, render_template
-from poker_engine import PokerEngine, HandRange
-from icm import ICMCalculator
-from utils import benchmark_performance, get_hand_description, get_stack_description
+import sys
+import os
+
+# Add the project root to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
+from src.core.poker_engine import PokerEngine, HandRange
+from src.core.icm import ICMCalculator
+from src.utils.helpers import benchmark_performance, get_hand_description, get_stack_description
 
 app = Flask(__name__)
 
@@ -103,6 +116,9 @@ def calculate():
             hand_strength = poker_engine.calculate_hand_strength(hole_cards, num_players, community_cards, opponent_range)
         else:
             hand_strength = poker_engine.calculate_hand_strength(hole_cards, num_players, None, opponent_range)
+        
+        # Ensure hand_strength is between 0 and 1
+        hand_strength = max(0.0, min(1.0, hand_strength))
         
         # Get recommendation
         recommendation = poker_engine.get_action_recommendation(

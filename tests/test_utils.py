@@ -9,9 +9,9 @@ import time
 from unittest.mock import patch, MagicMock
 
 # Add parent directory to path to import utils
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from utils import get_hand_description, get_stack_description, benchmark_performance
+from src.utils.helpers import get_hand_description, get_stack_description, benchmark_performance
 
 class TestUtils(unittest.TestCase):
     """Test cases for utility functions."""
@@ -88,21 +88,21 @@ class TestUtils(unittest.TestCase):
             " With 100 BB, you have room to play strategically."
         )
     
-    @patch('utils.PokerHelper')
-    @patch('utils.time.time')
-    def test_benchmark_performance(self, mock_time, mock_poker_helper_class):
+    @patch('src.utils.helpers.PokerEngine')
+    @patch('src.utils.helpers.time.time')
+    def test_benchmark_performance(self, mock_time, mock_poker_engine_class):
         """Test the benchmark_performance function."""
         # Setup mocks
-        mock_poker_helper = MagicMock()
-        mock_poker_helper_class.return_value = mock_poker_helper
+        mock_poker_engine = MagicMock()
+        mock_poker_engine_class.return_value = mock_poker_engine
         
         # Mock the parse_card method to return MagicMock objects
         mock_card1 = MagicMock()
         mock_card2 = MagicMock()
-        mock_poker_helper.parse_card.side_effect = [mock_card1, mock_card2]
+        mock_poker_engine.parse_card.side_effect = [mock_card1, mock_card2]
         
         # Mock the calculate_hand_strength method
-        mock_poker_helper.calculate_hand_strength.return_value = 0.5
+        mock_poker_engine.calculate_hand_strength.return_value = 0.5
         
         # Mock time.time() to return specific values
         mock_time.side_effect = [10.0, 10.5]  # Start time, end time (0.5 seconds elapsed)
@@ -114,9 +114,9 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(result, 0.5)  # Should return the elapsed time
         
         # Verify the mocks were called correctly
-        mock_poker_helper.parse_card.assert_any_call('Ah')
-        mock_poker_helper.parse_card.assert_any_call('Ks')
-        mock_poker_helper.calculate_hand_strength.assert_called_with([mock_card1, mock_card2], 6)
+        mock_poker_engine.parse_card.assert_any_call('Ah')
+        mock_poker_engine.parse_card.assert_any_call('Ks')
+        mock_poker_engine.calculate_hand_strength.assert_called_with([mock_card1, mock_card2], 6)
 
 if __name__ == '__main__':
     unittest.main()

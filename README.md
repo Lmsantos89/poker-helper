@@ -15,29 +15,69 @@ A high-performance web application to help make poker decisions based on probabi
 - Support for known community cards (flop, turn, river)
 - Optimized performance with parallel processing
 
-## Web Application Usage
+## Project Structure
 
-1. Install the required dependencies:
+```
+poker-helper/
+├── src/                           # Source code directory
+│   ├── core/                      # Core functionality
+│   │   ├── poker_engine.py        # Core poker logic
+│   │   ├── icm.py                 # ICM calculations
+│   │   └── models.py              # Data models (compatibility wrapper)
+│   ├── web/                       # Web interfaces
+│   │   ├── app.py                 # Flask application
+│   │   ├── streamlit_app.py       # Streamlit interface
+│   │   ├── templates/             # Flask templates
+│   │   └── static/                # Static assets
+│   └── utils/                     # Utility functions
+│       └── helpers.py             # Helper functions
+├── tests/                         # Test directory
+├── data/                          # Data files
+├── scripts/                       # Scripts directory
+├── docs/                          # Documentation
+└── README.md
+```
+
+## Installation
+
+### Using pip
+
+```bash
+# Install from the current directory
+pip install -e .
+```
+
+### Manual Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/poker-helper.git
+   cd poker-helper
+   ```
+
+2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Run the Flask web application:
+## Web Application Usage
+
+1. Run the Flask web application:
    ```bash
-   python app.py
+   python -m src.web.app
    ```
 
-3. Open your browser and navigate to:
+2. Open your browser and navigate to:
    ```
    http://127.0.0.1:5000
    ```
 
-4. Alternatively, run the Streamlit interface:
+3. Alternatively, run the Streamlit interface:
    ```bash
-   streamlit run streamlit_app.py
+   streamlit run src/web/streamlit_app.py
    ```
 
-5. In the web interface:
+4. In the web interface:
    - Select the number of players at the table (2-9)
    - Enter your stack size in big blinds
    - Choose your hole cards from the dropdown menus
@@ -47,26 +87,49 @@ A high-performance web application to help make poker decisions based on probabi
    - Optionally specify opponent ranges and ICM considerations
    - Click "Calculate" to get your recommendation
 
+## Quick Start
+
+For convenience, you can use the included script to set up and run the application:
+
+```bash
+./scripts/run_poker_helper.py
+```
+
+This script will:
+- Create a virtual environment if needed
+- Install all required dependencies
+- Run the Flask application
+
+## Development
+
+### Running Tests
+
+Run all tests with coverage reporting:
+
+```bash
+./scripts/run_tests.py
+```
+
+This will:
+- Run all unit tests
+- Display test results
+- Show coverage statistics
+- Generate an HTML coverage report in the `htmlcov` directory
+
+### Type Checking
+
+The codebase includes type hints. You can check types with mypy:
+
+```bash
+mypy src
+```
+
 ## Card Format
 
 - Ranks: 2, 3, 4, 5, 6, 7, 8, 9, T, J, Q, K, A
 - Suits: h (hearts), d (diamonds), c (clubs), s (spades)
 
 Example: "Ah" is the Ace of hearts, "Td" is the Ten of diamonds
-
-## Project Structure
-
-The application is organized into modular components:
-
-- `app.py` - Main Flask web application
-- `streamlit_app.py` - Streamlit web interface
-- `poker_engine.py` - Core poker logic and hand evaluation
-- `icm.py` - Independent Chip Model calculations
-- `utils.py` - Helper functions and benchmarking tools
-- `templates/` - HTML templates for the web interface
-- `static/` - CSS and JavaScript files
-- `tests/` - Unit tests for all components
-- `run_tests.py` - Script to run all unit tests
 
 ## How It Works
 
@@ -85,50 +148,3 @@ The application can:
 - Determine ICM pressure for each player
 - Adjust recommendations based on ICM considerations
 - Generate Nash equilibrium push/fold ranges
-
-### Performance Optimizations
-
-This application includes several performance optimizations:
-
-1. **Parallel Processing**: Utilizes multiple CPU cores to run simulations in parallel
-2. **Optimized Card Representation**: Uses memory-efficient card objects with precomputed values
-3. **Fast Hand Evaluation**: Implements optimized algorithms for evaluating poker hands
-4. **Efficient Deck Management**: Uses set operations and lookup tables for faster card operations
-5. **Adaptive Simulation Count**: Reduces simulations when community cards are known
-6. **Early Exit Optimization**: Skips opponent evaluations for very strong hands
-
-## API Endpoints
-
-- `/` - Main web interface
-- `/calculate` - POST endpoint for calculating hand strength and recommendations
-- `/calculate_icm` - POST endpoint for ICM calculations
-- `/nash_ranges` - POST endpoint for Nash equilibrium push/fold ranges
-- `/benchmark` - GET endpoint to run a performance benchmark
-
-## Testing
-
-The application includes comprehensive unit tests for all components:
-
-1. Run all tests with coverage reporting:
-   ```bash
-   python run_tests.py
-   ```
-   
-   This will:
-   - Run all unit tests
-   - Display test results
-   - Show coverage statistics
-   - Generate an HTML coverage report in the `htmlcov` directory
-
-## Quick Start Script
-
-For convenience, you can use the included script to set up and run the application:
-
-```bash
-./run_poker_helper.py
-```
-
-This script will:
-- Create a virtual environment if needed
-- Install all required dependencies
-- Run the Flask application

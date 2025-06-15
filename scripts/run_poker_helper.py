@@ -10,6 +10,9 @@ import subprocess
 import venv
 import shutil
 
+# Add the project root to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 def check_venv_exists():
     """Check if virtual environment exists."""
     return os.path.exists('venv') and os.path.isdir('venv')
@@ -48,7 +51,7 @@ def run_app(venv_python):
     print("Starting Poker Helper application...")
     try:
         # Run the app with the virtual environment's Python
-        subprocess.check_call([venv_python, 'app.py'])
+        subprocess.check_call([venv_python, '-m', 'src.web.app'])
         return True
     except subprocess.CalledProcessError:
         print("Failed to start the application.")
@@ -63,8 +66,8 @@ def main():
     print("============================")
     
     # Check if we're in the right directory
-    if not os.path.exists('app.py'):
-        print("Error: app.py not found! Make sure you're running this script from the poker-helper directory.")
+    if not os.path.exists('src/web/app.py'):
+        print("Error: src/web/app.py not found! Make sure you're running this script from the poker-helper directory.")
         return False
     
     # Check if virtual environment exists, create if it doesn't
@@ -76,15 +79,12 @@ def main():
     # Get the path to the virtual environment's Python
     venv_python = activate_venv()
     
-    # Install requirements if needed
+    # Install requirements
     if not install_requirements(venv_python):
         return False
     
     # Run the application
-    run_app(venv_python)
-    
-    print("\nThank you for using Poker Helper!")
-    return True
+    return run_app(venv_python)
 
 if __name__ == "__main__":
     success = main()

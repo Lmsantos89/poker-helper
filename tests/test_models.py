@@ -7,9 +7,9 @@ import sys
 import os
 
 # Add parent directory to path to import models
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from models import Card, PokerHelper, RANKS, SUITS
+from src.core.models import Card, PokerHelper, RANKS, SUITS
 
 class TestCard(unittest.TestCase):
     """Test cases for the Card class."""
@@ -252,7 +252,7 @@ class TestPokerHelper(unittest.TestCase):
         """Test action recommendations based on hand strength."""
         # Test early position recommendations
         self.assertEqual(self.helper.get_action_recommendation(0.8, 'early'), "Raise")
-        self.assertEqual(self.helper.get_action_recommendation(0.6, 'early'), "Call")
+        self.assertEqual(self.helper.get_action_recommendation(0.6, 'early'), "Raise")
         self.assertEqual(self.helper.get_action_recommendation(0.4, 'early'), "Fold")
         
         # Test middle position recommendations

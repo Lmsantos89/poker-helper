@@ -3,3 +3,7 @@ gunicorn==21.2.0
 treys==0.1.8
 streamlit==1.32.0
 numpy==1.26.0
+coverage==7.4.1
+pytest==7.4.0
+mypy==1.5.1
+types-flask==1.1.6

@@ -2,11 +2,17 @@
 """
 Test script to check the hand strength and recommendation for non-premium hands.
 """
-from models import PokerHelper
+import sys
+import os
+
+# Add parent directory to path to import modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.core.poker_engine import PokerEngine
 
 def test_non_premium_hands():
     """Test the hand strength and recommendation for non-premium hands."""
-    helper = PokerHelper()
+    helper = PokerEngine()
     
     # Test various non-premium hands
     test_hands = [

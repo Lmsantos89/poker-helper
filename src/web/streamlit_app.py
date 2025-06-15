@@ -2,14 +2,27 @@
 """
 Poker Tournament Helper - Streamlit Web Interface
 A Streamlit-based web application for the poker tournament helper.
+
+This module provides an alternative web interface using Streamlit, which offers:
+- Interactive widgets for input
+- Real-time calculation updates
+- Data visualization components
+- Mobile-friendly responsive design
 """
+from typing import Dict, List, Any, Optional, Union, Tuple
 import streamlit as st
 import pandas as pd
 import numpy as np
 import time
-from poker_engine import PokerEngine, HandRange, Card
-from icm import ICMCalculator
-from utils import get_hand_description, get_stack_description, hand_range_to_percentage
+import sys
+import os
+
+# Add the project root to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
+from src.core.poker_engine import PokerEngine, HandRange, Card
+from src.core.icm import ICMCalculator
+from src.utils.helpers import get_hand_description, get_stack_description, hand_range_to_percentage
 
 # Initialize the poker engine and ICM calculator
 poker_engine = PokerEngine()
@@ -188,6 +201,9 @@ with tab1:
                             hand_strength = poker_engine.calculate_hand_strength(
                                 hole_cards, num_players, None, opponent_range
                             )
+                        
+                        # Ensure hand_strength is between 0 and 1
+                        hand_strength = max(0.0, min(1.0, hand_strength))
                         
                         calc_time = time.time() - start_time
                         

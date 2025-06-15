@@ -3,12 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Distribution / packaging
-dist/
-build/
-*.egg-info/
-
-# Virtual environments
+# Virtual environment
 venv/
 env/
 ENV/
@@ -16,10 +11,13 @@ ENV/
 # Coverage reports
 .coverage
 htmlcov/
-coverage.xml
-*.cover
 
-# IDE specific files
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE files
 .idea/
 .vscode/
 *.swp
@@ -28,3 +26,6 @@ coverage.xml
 # OS specific files
 .DS_Store
 Thumbs.db
+
+# Logs
+*.log
