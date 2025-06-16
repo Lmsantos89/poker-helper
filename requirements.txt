@@ -1,8 +1,8 @@
 flask==2.3.3
 gunicorn==21.2.0
 treys==0.1.8
-streamlit==1.32.0
 numpy==1.26.0
+pandas==2.3.0
 coverage==7.4.1
 pytest==7.4.0
 mypy==1.5.1

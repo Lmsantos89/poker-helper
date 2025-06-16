@@ -11,7 +11,7 @@ A high-performance web application to help make poker decisions based on probabi
 - ICM calculations for tournament play
 - Nash equilibrium push/fold ranges
 - Support for opponent hand ranges
-- User-friendly web interface with Streamlit option
+- User-friendly web interface
 - Support for known community cards (flop, turn, river)
 - Optimized performance with parallel processing
 
@@ -26,7 +26,6 @@ poker-helper/
 │   │   └── models.py              # Data models (compatibility wrapper)
 │   ├── web/                       # Web interfaces
 │   │   ├── app.py                 # Flask application
-│   │   ├── streamlit_app.py       # Streamlit interface
 │   │   ├── templates/             # Flask templates
 │   │   └── static/                # Static assets
 │   └── utils/                     # Utility functions
@@ -72,12 +71,7 @@ pip install -e .
    http://127.0.0.1:5000
    ```
 
-3. Alternatively, run the Streamlit interface:
-   ```bash
-   streamlit run src/web/streamlit_app.py
-   ```
-
-4. In the web interface:
+3. In the web interface:
    - Select the number of players at the table (2-9)
    - Enter your stack size in big blinds
    - Choose your hole cards from the dropdown menus

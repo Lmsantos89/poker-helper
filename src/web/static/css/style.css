@@ -1,60 +1,143 @@
-/* Poker Tournament Helper Styles */
+/* Main styles for Poker Tournament Helper */
 
 body {
-    background-color: #f8f9fa;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
 }
 
-.container {
-    max-width: 1000px;
-}
-
-header h1 {
-    color: #2c3e50;
-    font-weight: 700;
+.navbar-brand {
+    font-weight: bold;
 }
 
 .card {
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
-.card-body {
-    padding: 2rem;
+.card-header {
+    font-weight: bold;
 }
 
-.form-label {
-    font-weight: 500;
-}
-
-.btn-primary {
-    background-color: #3498db;
-    border-color: #3498db;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #2980b9;
-    border-color: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
+/* Progress bar styling */
 .progress {
-    height: 25px;
+    height: 30px;
     border-radius: 15px;
 }
 
 .progress-bar {
-    background-color: #3498db;
-    transition: width 1s ease;
+    transition: width 0.6s ease;
+}
+
+/* Recommendation styling */
+#recommendationValue {
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.recommendation-fold {
+    background-color: #dc3545;
+    color: white;
+}
+
+.recommendation-call {
+    background-color: #ffc107;
+    color: black;
+}
+
+.recommendation-raise {
+    background-color: #28a745;
+    color: white;
+}
+
+.recommendation-allin {
+    background-color: #007bff;
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Card visualization */
+.card-visual {
+    display: inline-block;
+    width: 60px;
+    height: 90px;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    margin: 5px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-red {
+    color: #dc3545;
+}
+
+.card-black {
+    color: #212529;
+}
+
+.card-rank {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-suit {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 24px;
+}
+
+/* ICM table styling */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Nash ranges styling */
+.nash-player {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+}
+
+.nash-player h4 {
+    border-bottom: 2px solid #ffc107;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .card-body {
-        padding: 1.5rem;
+        padding: 15px 10px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
     }
 }
